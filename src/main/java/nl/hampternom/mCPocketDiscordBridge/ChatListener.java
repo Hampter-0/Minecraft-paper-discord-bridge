@@ -1,5 +1,8 @@
 package nl.hampternom.mCPocketDiscordBridge;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.io.OutputStream;
@@ -13,6 +16,13 @@ public class ChatListener implements Listener {
 
     public ChatListener(MCPocketDiscordBridge plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onChat(AsyncChatEvent event) {
+        String username = event.getPlayer().getName();
+        String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+        sendToDiscord(username + " says: " + message);
     }
 
     public void sendToDiscord(String message) {
