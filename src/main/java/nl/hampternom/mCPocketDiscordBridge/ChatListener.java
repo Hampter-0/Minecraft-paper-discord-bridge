@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -29,12 +30,20 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        sendToDiscord("**" + event.getPlayer().getName() + "** joined the game");
+        sendToDiscord("**" + event.getPlayer().getName() + "** joined the game :)");
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        sendToDiscord("**" + event.getPlayer().getName() + "** left the game");
+        sendToDiscord("**" + event.getPlayer().getName() + "** left the game :(");
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        String deathMessage = event.getDeathMessage() != null ?
+                PlainTextComponentSerializer.plainText().serialize(event.deathMessage()) :
+                event.getPlayer().getName() + " died";
+        sendToDiscord("noob " + deathMessage);
     }
 
     public void sendToDiscord(String message) {
