@@ -4,6 +4,8 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -22,7 +24,17 @@ public class ChatListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         String username = event.getPlayer().getName();
         String message = PlainTextComponentSerializer.plainText().serialize(event.message());
-        sendToDiscord(username + " says: " + message);
+        sendToDiscord("**" + username + "**: " + message);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        sendToDiscord("**" + event.getPlayer().getName() + "** joined the game");
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        sendToDiscord("**" + event.getPlayer().getName() + "** left the game");
     }
 
     public void sendToDiscord(String message) {
