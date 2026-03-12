@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.io.OutputStream;
@@ -44,6 +45,17 @@ public class ChatListener implements Listener {
                 PlainTextComponentSerializer.plainText().serialize(event.deathMessage()) :
                 event.getPlayer().getName() + " died";
         sendToDiscord("noob " + deathMessage);
+    }
+
+    @EventHandler
+    public void onAdvancement(PlayerAdvancementDoneEvent event) {
+        io.papermc.paper.advancement.AdvancementDisplay display = event.getAdvancement().getDisplay();
+        if (display == null) return;
+        if (!display.doesAnnounceToChat()) return;
+
+        String username = event.getPlayer().getName();
+        String title = PlainTextComponentSerializer.plainText().serialize(display.title());
+        sendToDiscord("**" + username + "** got the advancement **" + title + "**");
     }
 
     public void sendToDiscord(String message) {
