@@ -1,4 +1,4 @@
 name: MC-pocket-discord-bridge
 version: '1.0-SNAPSHOT'
 main: nl.hampternom.mCPocketDiscordBridge.MCPocketDiscordBridge
-api-version: '1.21'
+api-version: '1.19'
