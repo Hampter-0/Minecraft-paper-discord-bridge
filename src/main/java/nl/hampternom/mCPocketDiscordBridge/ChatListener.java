@@ -26,6 +26,12 @@ public class ChatListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         String username = event.getPlayer().getName();
         String message = PlainTextComponentSerializer.plainText().serialize(event.message());
+
+        if (message.startsWith("!")) {
+            sendToDiscord("**[MC Command]** " + username + ": " + message);
+            return;
+        }
+
         sendToDiscord("**" + username + "**: " + message);
     }
 
