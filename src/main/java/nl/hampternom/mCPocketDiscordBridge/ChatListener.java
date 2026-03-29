@@ -73,7 +73,7 @@ public class ChatListener implements Listener {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
-            String json = "{\"content\": \"" + message.replace("\"", "\\\"") + "\"}";
+            String json = "{\"content\": \"" + message.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n") + "\"}";
 
             try (OutputStream os = conn.getOutputStream()) {
                 os.write(json.getBytes(StandardCharsets.UTF_8));
