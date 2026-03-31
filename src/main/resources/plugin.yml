@@ -7,3 +7,6 @@ commands:
   discordstats:
     description: Fetch stats for Discord
     usage: /discordstats <username>
+  discordadvancements:
+    description: Fetch advancements for Discord
+    usage: /discordadvancements <username>

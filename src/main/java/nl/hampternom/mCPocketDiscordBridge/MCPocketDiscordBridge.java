@@ -7,12 +7,14 @@ public final class MCPocketDiscordBridge extends JavaPlugin {
 
     private ChatListener chatListener;
     private StatsCommand statsCommand;
+    private AdvancementsCommand advancementsCommand;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         chatListener = new ChatListener(this);
         statsCommand = new StatsCommand(this);
+        advancementsCommand = new AdvancementsCommand(this);
         getServer().getPluginManager().registerEvents(chatListener, this);
 
         if (getCommand("discordstats") == null) {
@@ -20,10 +22,19 @@ public final class MCPocketDiscordBridge extends JavaPlugin {
         } else {
             getLogger().info("discordstats command registered!");
             getCommand("discordstats").setExecutor((sender, command, label, args) -> {
-                getLogger().info("discordstats called with " + args.length + " args");
                 if (args.length == 0) return false;
-                getLogger().info("Fetching stats for: " + args[0]);
                 statsCommand.handle(args[0]);
+                return true;
+            });
+        }
+
+        if (getCommand("discordadvancements") == null) {
+            getLogger().warning("discordadvancements command is null!");
+        } else {
+            getLogger().info("discordadvancements command registered!");
+            getCommand("discordadvancements").setExecutor((sender, command, label, args) -> {
+                if (args.length == 0) return false;
+                advancementsCommand.handle(args[0]);
                 return true;
             });
         }
@@ -37,5 +48,9 @@ public final class MCPocketDiscordBridge extends JavaPlugin {
 
     public StatsCommand getStatsCommand() {
         return statsCommand;
+    }
+
+    public AdvancementsCommand getAdvancementsCommand() {
+        return advancementsCommand;
     }
 }
